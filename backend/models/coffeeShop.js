@@ -1,12 +1,29 @@
-const mongoose = require('mongoose');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const coffeeShopSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  rating: { type: Number, min: 1, max: 5, required: true },
-  imageUrl: { type: String, required: true },
+// Define the CoffeeShop model
+const CoffeeShop = sequelize.define('CoffeeShop', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  rating: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      min: 1,
+      max: 5
+    }
+  },
+  imageUrl: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 });
 
-const CoffeeShop = mongoose.model('CoffeeShop', coffeeShopSchema);
-
 module.exports = CoffeeShop;
+
