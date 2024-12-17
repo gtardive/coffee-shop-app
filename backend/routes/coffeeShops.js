@@ -5,7 +5,7 @@ const router = express.Router();
 // Get all coffee shops
 router.get('/', async (req, res) => {
   try {
-    const coffeeShops = await CoffeeShop.find();
+    const coffeeShops = await CoffeeShop.findAll();
     res.json(coffeeShops);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -16,15 +16,13 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { name, description, rating, imageUrl } = req.body;
 
-  const coffeeShop = new CoffeeShop({
-    name,
-    description,
-    rating,
-    imageUrl,
-  });
-
   try {
-    const newCoffeeShop = await coffeeShop.save();
+    const newCoffeeShop = await CoffeeShop.create({
+      name,
+      description,
+      rating,
+      imageUrl,
+    });
     res.status(201).json(newCoffeeShop);
   } catch (err) {
     res.status(400).json({ message: err.message });
